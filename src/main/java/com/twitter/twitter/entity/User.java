@@ -33,7 +33,7 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "user_name")
+    @Column(name = "username")
     private String userName;
 
     @Column(name = "birthday")

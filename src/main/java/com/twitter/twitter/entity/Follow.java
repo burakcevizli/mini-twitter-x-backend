@@ -20,7 +20,7 @@ public class Follow {
 
     @JoinColumn(name = "follower_user_id")
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-    private User followerList;
+    private User followerUser;
 
 
 }
