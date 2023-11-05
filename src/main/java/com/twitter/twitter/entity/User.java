@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -37,13 +38,16 @@ public class User {
     private String userName;
 
     @Column(name = "birthday")
-    private LocalDate birthday;
+    private Date birthday;
 
     @Column(name = "register_date")
-    private LocalDate registerDate;
+    private Date registerDate;
 
     @Column(name = "address")
     private String address;
+
+    @Column(name = "profile_picture")
+    private String profilePicture;
 
     @OneToMany(cascade = CascadeType.ALL , mappedBy = "user")
     List<Tweet> tweetList;

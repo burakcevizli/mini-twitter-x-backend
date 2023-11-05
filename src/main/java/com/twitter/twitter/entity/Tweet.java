@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @Entity
@@ -26,6 +28,9 @@ public class Tweet {
 
     @Column(name = "text")
     private String text;
+
+    @Column(name = "tweet_date")
+    private Date tweetDate;
 
     @JoinColumn(name = "user_id")
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
