@@ -1,6 +1,7 @@
 package com.twitter.twitter.service;
 
 
+import com.twitter.twitter.entity.Tweet;
 import com.twitter.twitter.entity.User;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface UserService {
     User saveUser(User user);
 
     User deleteUser(int id);
+
+
 }

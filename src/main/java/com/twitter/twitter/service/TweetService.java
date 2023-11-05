@@ -12,4 +12,6 @@ public interface TweetService {
     Tweet saveTweet(Tweet tweet);
 
     Tweet deleteTweet(int id);
+
+    List<Tweet> findTweetByUserId(int id);
 }

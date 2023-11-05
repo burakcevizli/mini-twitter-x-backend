@@ -30,6 +30,12 @@ public class TweetController {
         return Converter.tweetResponseListConverter(tweetService.findAllTweets());
     }
 
+    @GetMapping("/profile/{userId}")
+    public List<TweetResponse> findAllTweetsByUserId(@PathVariable int userId){
+        return Converter.tweetResponseListConverter(tweetService.findTweetByUserId(userId));
+    }
+
+
     @GetMapping("/{id}")
     public TweetResponse findTweetById(@PathVariable int id){
         return Converter.tweetResponseConverter(tweetService.findTweetById(id));
