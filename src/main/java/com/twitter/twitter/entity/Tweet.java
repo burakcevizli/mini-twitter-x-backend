@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -30,7 +31,7 @@ public class Tweet {
     private String text;
 
     @Column(name = "tweet_date")
-    private Date tweetDate;
+    private LocalDate tweetDate;
 
     @JoinColumn(name = "user_id")
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})

@@ -3,6 +3,7 @@ package com.twitter.twitter.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.cglib.core.Local;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,10 +39,10 @@ public class User {
     private String userName;
 
     @Column(name = "birthday")
-    private Date birthday;
+    private LocalDate birthday;
 
     @Column(name = "register_date")
-    private Date registerDate;
+    private LocalDate registerDate;
 
     @Column(name = "address")
     private String address;
