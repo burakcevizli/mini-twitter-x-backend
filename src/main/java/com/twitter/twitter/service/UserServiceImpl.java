@@ -33,6 +33,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User saveUser(User user) {
+       boolean email = userRepository.emailChecker(user.getEmail());
+       if(email){
+           throw new RuntimeException("Email already exist :" + user.getEmail());
+       }
         return userRepository.save(user);
     }
 

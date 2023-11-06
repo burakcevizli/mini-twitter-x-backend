@@ -50,6 +50,9 @@ public class User {
     @Column(name = "profile_picture")
     private String profilePicture;
 
+    @Column(name = "profile_wallpaper")
+    private String profileWallpaper;
+
     @OneToMany(cascade = CascadeType.ALL , mappedBy = "user")
     List<Tweet> tweetList;
 
