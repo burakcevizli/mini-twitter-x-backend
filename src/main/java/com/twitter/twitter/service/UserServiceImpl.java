@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Override
+ /*   @Override
     public User findUserByEmail(String email) {
         User user = userRepository.findUserByEmail(email);
         if(user == null){
@@ -67,4 +67,6 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+  */
 }

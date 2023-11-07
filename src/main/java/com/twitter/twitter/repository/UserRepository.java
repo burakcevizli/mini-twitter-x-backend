@@ -18,6 +18,8 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query(value = "SELECT u.username FROM twitter.user AS u WHERE u.username =:username", nativeQuery = true)
     String usernameChecker(String username);
 
-    @Query("SELECT u FROM user u WHERE u.email =:email")
+   /* @Query("SELECT u FROM user u WHERE u.email =:email")
     User findUserByEmail(String email);
+    */
+
 }
