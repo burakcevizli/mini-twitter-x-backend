@@ -51,10 +51,20 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+
     @Override
     public User deleteUser(int id) {
         User user = findByUserId(id);
         userRepository.delete(user);
+        return user;
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        User user = userRepository.findUserByEmail(email);
+        if(user == null){
+            throw new TwitterException("User with given email is not exist : " + email , HttpStatus.NOT_FOUND);
+        }
         return user;
     }
 }

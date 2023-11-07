@@ -29,6 +29,14 @@ public class UserController {
 
     //TODO POST MAPPINGLERI YAP
 
+    @PostMapping("/login")
+    public UserResponse login(@RequestBody User user){
+        User user1 = userService.findUserByEmail(user.getEmail());
+        if(user1.getPassword() == user.getPassword()){
+
+        }
+
+    }
 
     @DeleteMapping("/{id}")
     public UserResponse deleteUser(@PathVariable int id){
