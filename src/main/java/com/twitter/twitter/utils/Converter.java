@@ -31,7 +31,7 @@ public class Converter {
     }
 
     public static UserTweetResponse userTweetResponseConverter(UserResponse userResponse){
-        return new UserTweetResponse(userResponse.firstName(), userResponse.lastName(),
+        return new UserTweetResponse(userResponse.id(), userResponse.firstName(), userResponse.lastName(),
                 userResponse.profilePicture(), userResponse.userName());
     }
 
