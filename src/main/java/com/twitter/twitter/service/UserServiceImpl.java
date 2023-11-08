@@ -6,6 +6,8 @@ import com.twitter.twitter.exceptions.TwitterException;
 import com.twitter.twitter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public User saveUser(User user) {
         String email = userRepository.emailChecker(user.getEmail());
         String phone = userRepository.phoneChecker(user.getPhone());
-        String username = userRepository.usernameChecker(user.getUserName());
+        String username = userRepository.usernameChecker(user.getUsername());
         if (email != null) {
             throw new TwitterException("User is already exist this email : " + email, HttpStatus.BAD_REQUEST);
         }
@@ -59,14 +61,21 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
- /*   @Override
-    public User findUserByEmail(String email) {
-        User user = userRepository.findUserByEmail(email);
-        if(user == null){
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+      Optional<User> optionalUser = userRepository.findUserByEmail(email);
+        if(optionalUser.isEmpty()){
             throw new TwitterException("User with given email is not exist : " + email , HttpStatus.NOT_FOUND);
         }
-        return user;
+        return optionalUser;
     }
 
-  */
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findUserByEmail(email)
+                .orElseThrow(() -> {
+                    return new UsernameNotFoundException("User credentials are not valid");
+                });
+    }
+
 }

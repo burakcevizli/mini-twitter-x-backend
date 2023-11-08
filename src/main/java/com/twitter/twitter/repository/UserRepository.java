@@ -4,6 +4,7 @@ package com.twitter.twitter.repository;
 import com.twitter.twitter.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 
 import java.util.Optional;
@@ -18,8 +19,9 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query(value = "SELECT u.username FROM twitter.user AS u WHERE u.username =:username", nativeQuery = true)
     String usernameChecker(String username);
 
-   /* @Query("SELECT u FROM user u WHERE u.email =:email")
-    User findUserByEmail(String email);
-    */
+    @Query("SELECT u FROM User u WHERE u.email = :email")
+    Optional<User> findUserByEmail(@Param("email") String email);
+
+
 
 }

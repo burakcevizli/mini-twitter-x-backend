@@ -3,9 +3,14 @@ package com.twitter.twitter.service;
 
 
 import com.twitter.twitter.entity.User;
+import com.twitter.twitter.repository.UserRepository;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
+import javax.swing.plaf.OptionPaneUI;
 import java.util.List;
-public interface UserService {
+import java.util.Optional;
+
+public interface UserService extends UserDetailsService {
     List<User> findAllUsers();
 
     User findByUserId(int id);
@@ -14,8 +19,6 @@ public interface UserService {
 
     User deleteUser(int id);
 
-  /*  User findUserByEmail(String email);
-
-   */
+   Optional<User> findUserByEmail(String email);
 
 }

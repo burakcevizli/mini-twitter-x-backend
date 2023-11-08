@@ -1,8 +1,10 @@
 package com.twitter.twitter.controller;
 
+import com.twitter.twitter.dto.LoginUserDto;
 import com.twitter.twitter.dto.UserResponse;
 import com.twitter.twitter.entity.User;
 import com.twitter.twitter.repository.UserRepository;
+import com.twitter.twitter.service.AuthenticationService;
 import com.twitter.twitter.service.UserService;
 import com.twitter.twitter.utils.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,28 +18,26 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
+    private AuthenticationService authenticationService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService,AuthenticationService authenticationService) {
         this.userService = userService;
+        this.authenticationService=authenticationService;
     }
 
     @PostMapping("/register")
     public UserResponse register(@RequestBody User user) {
-        return Converter.userResponseConverter(userService.saveUser(user));
+        return Converter.userResponseConverter(authenticationService.register(user));
     }
 
     //TODO POST MAPPINGLERI YAP
 
-    /*@PostMapping("/login")
-    public UserResponse login(@RequestBody User user){
-        User user1 = userService.findUserByEmail(user.getEmail());
-        if(user1.getPassword() == user.getPassword()){
-
-        }
-
-    }*/
-
+    @PostMapping("/login")
+    public UserResponse login(@RequestBody LoginUserDto loginUserDto){
+        User user1 = authenticationService.login(loginUserDto);
+       return Converter.userResponseConverter(user1);
+    }
     @DeleteMapping("/{id}")
     public UserResponse deleteUser(@PathVariable int id){
         return Converter.userResponseConverter(userService.deleteUser(id));
