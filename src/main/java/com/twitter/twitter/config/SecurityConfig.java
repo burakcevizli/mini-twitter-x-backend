@@ -19,24 +19,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-//csrf => Cross Site Resource Forgery
-//Authentication(Giriş Yapabilme) vs Authorization(Yetkilendirme-Rol based)
-
-//STEP 1: pom.xml dosyasına security dependency eklenir. Bir config sınıfı tanımlanıp
-//içerisine SecurityFilterChain Bean tanımlanır.
-
-//STEP 5: Password Encoding nasıl yapılacak ?
-
-//STEP 6: Kendi Authentication sistemimizi Spring'e tanıtma.
-
-//OAuth
 
 @Configuration
 public class SecurityConfig {
 
-    //Bcrypt
-    //Scrypt
-    //Argon2
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

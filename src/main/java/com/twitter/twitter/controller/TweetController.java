@@ -25,9 +25,9 @@ public class TweetController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public List<TweetResponse> findAllTweets(){
-        return Converter.tweetResponseListConverter(tweetService.findAllTweets());
+    @GetMapping("/homepage/{id}")
+    public List<TweetResponse> findAllTweetsByFollowing(@PathVariable int id){
+        return Converter.tweetResponseListConverter(tweetService.findAllTweetsByFollowing(id));
     }
 
     @GetMapping("/profile/{userId}")

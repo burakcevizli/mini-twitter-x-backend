@@ -5,6 +5,7 @@ import com.twitter.twitter.entity.Tweet;
 import java.util.List;
 
 public interface TweetService {
+    List<Tweet> findAllTweetsByFollowing(int id);
     List<Tweet> findAllTweets();
 
     Tweet findTweetById(int id);

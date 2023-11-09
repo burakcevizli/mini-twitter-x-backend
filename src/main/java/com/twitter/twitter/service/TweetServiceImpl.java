@@ -24,6 +24,12 @@ public class TweetServiceImpl implements TweetService{
         this.userRepository = userRepository;
     }
 
+
+    @Override
+    public List<Tweet> findAllTweetsByFollowing(int id) {
+        return tweetRepository.findAllTweetsByFollowing(id);
+    }
+
     @Override
     public List<Tweet> findAllTweets() {
         return tweetRepository.findAll();

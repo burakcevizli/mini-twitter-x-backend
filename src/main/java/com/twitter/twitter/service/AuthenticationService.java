@@ -46,6 +46,7 @@ public class AuthenticationService {
         Optional<User> optionalUser = userRepository.findUserByEmail(loginUserDto.email());
         if(optionalUser.isPresent()){
             User user = optionalUser.get();
+            System.out.println(user.getPassword() + loginUserDto.password());
             boolean isPasswordSame = passwordEncoder.matches(loginUserDto.password(),user.getPassword());
             if(isPasswordSame){
                 return user;
