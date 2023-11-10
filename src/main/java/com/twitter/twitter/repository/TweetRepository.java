@@ -10,7 +10,7 @@ import java.util.List;
 public interface TweetRepository extends JpaRepository<Tweet,Integer> {
     @Query("SELECT t FROM Tweet t " +
             "INNER JOIN t.user u " +
-            "WHERE u.id = :id")
+            "WHERE u.id = :id ORDER BY t.id DESC")
     public List<Tweet> findTweetByUserId( int id);
 
     @Query("SELECT t FROM Tweet t ORDER BY t.id DESC")
