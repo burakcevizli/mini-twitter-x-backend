@@ -39,7 +39,7 @@ public class AuthenticationService {
         user1.setProfileWallpaper(user.getProfileWallpaper());
         user1.setRegisterDate(user.getRegisterDate());
         user1.setPhone(user.getPhone());
-        return userRepository.save(user1);
+        return user1;
     };
 
     public User login(LoginUserDto loginUserDto){

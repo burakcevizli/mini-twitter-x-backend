@@ -28,7 +28,7 @@ public class UserController {
 
     @PostMapping("/register")
     public UserResponse register(@RequestBody User user) {
-        return Converter.userResponseConverter(authenticationService.register(user));
+        return Converter.userResponseConverter(userService.saveUser(authenticationService.register(user)));
     }
 
     //TODO POST MAPPINGLERI YAP
