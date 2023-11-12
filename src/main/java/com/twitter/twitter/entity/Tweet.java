@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.time.LocalDate;
-import java.util.Date;
+
 
 @Data
 @NoArgsConstructor
@@ -27,6 +29,7 @@ public class Tweet {
     @Column(name = "likes")
     private int likes;
 
+
     @Column(name = "text")
     private String text;
 
@@ -36,4 +39,14 @@ public class Tweet {
     @JoinColumn(name = "user_id")
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     private User user;
+
+    @Column(name="liked_by_users")
+    private List<Integer> likedByUsersIds;
+
+    public void addLikedByUsersIds(int id){
+        if(likedByUsersIds == null){
+            likedByUsersIds = new ArrayList<>();
+        }
+        likedByUsersIds.add(id);
+    }
 }

@@ -56,6 +56,9 @@ public class User implements UserDetails {
     @Column(name = "profile_wallpaper")
     private String profileWallpaper;
 
+    @Column(name = "liked_tweets")
+    private List<Integer> likedTweetsIds;
+
     @OneToMany(cascade = CascadeType.ALL , mappedBy = "user")
     List<Tweet> tweetList;
 
@@ -70,6 +73,12 @@ public class User implements UserDetails {
             tweetList = new ArrayList<>();
         }
         tweetList.add(tweet);
+    }
+    public void addLikedTweetsIds(int id){
+        if(likedTweetsIds == null){
+            likedTweetsIds = new ArrayList<>();
+        }
+        likedTweetsIds.add(id);
     }
 
     public void addFollower(Follow follow){
