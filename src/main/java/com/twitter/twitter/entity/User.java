@@ -1,9 +1,11 @@
 package com.twitter.twitter.entity;
 
+import com.twitter.twitter.exceptions.TwitterException;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.cglib.core.Local;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,11 +14,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "user",schema = "twitter")
+@Table(name = "user", schema = "twitter")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,40 +59,58 @@ public class User implements UserDetails {
     @Column(name = "profile_wallpaper")
     private String profileWallpaper;
 
-    @Column(name = "liked_tweets")
-    private List<Integer> likedTweetsIds;
+    @Column(name = "liked_tweets_id")
+    private List<Integer> likedTweetIdList;
 
-    @OneToMany(cascade = CascadeType.ALL , mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     List<Tweet> tweetList;
 
-    @OneToMany(cascade = CascadeType.ALL , mappedBy = "followerUser")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "followerUser")
     List<Follow> followerList;
 
-    @OneToMany(cascade = CascadeType.ALL , mappedBy = "followingUser")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "followingUser")
     List<Follow> followingList;
 
-    public void addTweet(Tweet tweet){
-        if(tweetList == null){
+
+
+
+    public void addTweet(Tweet tweet) {
+        if (tweetList == null) {
             tweetList = new ArrayList<>();
         }
         tweetList.add(tweet);
     }
-    public void addLikedTweetsIds(int id){
-        if(likedTweetsIds == null){
-            likedTweetsIds = new ArrayList<>();
+
+    public void removeLikedTweet(int id){
+        if(likedTweetIdList == null){
+            throw new TwitterException("You didn't like this tweet already5555.", HttpStatus.BAD_REQUEST);
         }
-        likedTweetsIds.add(id);
+        if(likedTweetIdList.contains(id)){
+            likedTweetIdList = likedTweetIdList.stream().filter(eachId->eachId !=id).collect(Collectors.toList());
+            return;
+        }
+        throw new TwitterException("You didn't like this tweet already3333.", HttpStatus.BAD_REQUEST);
     }
 
-    public void addFollower(Follow follow){
-        if(followerList == null){
+    public void addLikedTweet(int id) {
+        if (likedTweetIdList == null) {
+            likedTweetIdList = new ArrayList<>();
+        }
+        if(likedTweetIdList.contains(id)){
+            throw new TwitterException("You already liked this tweet already ...",HttpStatus.BAD_REQUEST);
+        }
+        likedTweetIdList.add(id);
+    }
+
+    public void addFollower(Follow follow) {
+        if (followerList == null) {
             followerList = new ArrayList<>();
         }
         followerList.add(follow);
     }
 
-    public void addFollowing(Follow follow){
-        if(followingList == null){
+    public void addFollowing(Follow follow) {
+        if (followingList == null) {
             followingList = new ArrayList<>();
         }
         followingList.add(follow);
@@ -125,4 +146,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

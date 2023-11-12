@@ -62,6 +62,26 @@ public class TweetController {
         return Converter.tweetResponseConverter(tweetService.deleteTweet(id));
     }
 
+    @PostMapping("/like/{id}")
+    public TweetResponse likeTweet(@PathVariable int id,@RequestBody User user){
+        Tweet tweet = tweetService.findTweetById(id);
+        User user1 = userService.findByUserId(user.getId());
+        user1.addLikedTweet(tweet.getId());
+        tweet.addLikedByUserList(user1.getId());
+        tweetService.saveTweet(tweet);
+        return Converter.tweetResponseConverter(tweet);
+    }
+
+
+    @DeleteMapping("/like/{id}")
+    public TweetResponse deleteTweet(@PathVariable int id , @RequestBody User user){
+        Tweet tweet = tweetService.findTweetById(id);
+        User user1 = userService.findByUserId(user.getId());
+        tweet.removeLikedByUserList(user1.getId());
+        user1.removeLikedTweet(tweet.getId());
+        tweetService.saveTweet(tweet);
+        return Converter.tweetResponseConverter(tweet);
+    }
 
 
 }

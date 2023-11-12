@@ -1,12 +1,15 @@
 package com.twitter.twitter.entity;
 
+import com.twitter.twitter.exceptions.TwitterException;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 
 @Data
@@ -26,9 +29,6 @@ public class Tweet {
     @Column(name = "retweet")
     private int retweet;
 
-    @Column(name = "likes")
-    private int likes;
-
 
     @Column(name = "text")
     private String text;
@@ -36,17 +36,33 @@ public class Tweet {
     @Column(name = "tweet_date")
     private LocalDate tweetDate;
 
+    @Column(name = "liked_user_id")
+    private List<Integer> likedUserIdList;
+
     @JoinColumn(name = "user_id")
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     private User user;
 
-    @Column(name="liked_by_users")
-    private List<Integer> likedByUsersIds;
 
-    public void addLikedByUsersIds(int id){
-        if(likedByUsersIds == null){
-            likedByUsersIds = new ArrayList<>();
+
+
+    public void addLikedByUserList(int id){
+        if(likedUserIdList == null){
+            likedUserIdList = new ArrayList<>();
         }
-        likedByUsersIds.add(id);
+        if(likedUserIdList.contains(id)){
+            throw new TwitterException("You already liked this tweet already ...",HttpStatus.BAD_REQUEST);
+        }
+        likedUserIdList.add(id);
+    }
+    public void removeLikedByUserList(int id){
+        if(likedUserIdList == null){
+            throw new TwitterException("You didn't like this tweet already.", HttpStatus.BAD_REQUEST);
+        }
+        if(likedUserIdList.contains(id)){
+         likedUserIdList = likedUserIdList.stream().filter(eachId->eachId !=id).collect(Collectors.toList());
+         return;
+        }
+        throw new TwitterException("You didn't like this tweet already.", HttpStatus.BAD_REQUEST);
     }
 }

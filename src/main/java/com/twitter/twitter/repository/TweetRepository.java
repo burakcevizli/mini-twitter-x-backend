@@ -15,4 +15,6 @@ public interface TweetRepository extends JpaRepository<Tweet,Integer> {
 
     @Query("SELECT t FROM Tweet t ORDER BY t.id DESC")
     public List<Tweet> findAllTweetsByFollowing(int id);
+
+
 }
