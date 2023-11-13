@@ -23,11 +23,6 @@ public class Tweet {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "comments_total")
-    private int commentsTotal;
-
-    @Column(name = "retweet")
-    private int retweet;
 
 
     @Column(name = "text")
@@ -39,12 +34,52 @@ public class Tweet {
     @Column(name = "liked_user_id")
     private List<Integer> likedUserIdList;
 
+    @Column(name = "retweets_user_id")
+    private List<Integer> retweetsUserIdList;
+
+    @Column(name = "comments")
+    private List<Integer> commentsTweetIdList;
+
     @JoinColumn(name = "user_id")
-    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     private User user;
 
+    public void addCommentsTweetIdList(int id){
+        if(commentsTweetIdList == null){
+            commentsTweetIdList = new ArrayList<>();
+        }
+        commentsTweetIdList.add(id);
+    }
+    public void removeCommentsUserIdList(int id){
+        if(commentsTweetIdList == null){
+            throw new TwitterException("You didn't comment this tweet already.", HttpStatus.BAD_REQUEST);
+        }
+        if(commentsTweetIdList.contains(id)){
+            commentsTweetIdList = commentsTweetIdList.stream().filter(eachId->eachId !=id).collect(Collectors.toList());
+            return;
+        }
+        throw new TwitterException("You didn't comment this tweet already.", HttpStatus.BAD_REQUEST);
+    }
 
-
+    public void addRetweetsUserIdList(int id){
+        if(retweetsUserIdList == null){
+            retweetsUserIdList = new ArrayList<>();
+        }
+        if(retweetsUserIdList.contains(id)){
+            throw new TwitterException("You already retweeted this tweet already ...",HttpStatus.BAD_REQUEST);
+        }
+        retweetsUserIdList.add(id);
+    }
+    public void removeRetweetsUserIdList(int id){
+        if(retweetsUserIdList == null){
+            throw new TwitterException("You didn't retweet this tweet already.", HttpStatus.BAD_REQUEST);
+        }
+        if(retweetsUserIdList.contains(id)){
+            retweetsUserIdList = retweetsUserIdList.stream().filter(eachId->eachId !=id).collect(Collectors.toList());
+            return;
+        }
+        throw new TwitterException("You didn't retweet this tweet already.", HttpStatus.BAD_REQUEST);
+    }
 
     public void addLikedByUserList(int id){
         if(likedUserIdList == null){

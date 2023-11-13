@@ -62,6 +62,9 @@ public class User implements UserDetails {
     @Column(name = "liked_tweets_id")
     private List<Integer> likedTweetIdList;
 
+    @Column(name = "retweets_tweets_id")
+    private List<Integer> retweetsTweetsIdList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     List<Tweet> tweetList;
 
@@ -71,7 +74,26 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "followingUser")
     List<Follow> followingList;
 
+    public void removeRetweetsTweetsIdList(int id){
+        if(retweetsTweetsIdList == null){
+            throw new TwitterException("You didn't retweet this tweet already.", HttpStatus.BAD_REQUEST);
+        }
+        if(retweetsTweetsIdList.contains(id)){
+            retweetsTweetsIdList = retweetsTweetsIdList.stream().filter(eachId->eachId !=id).collect(Collectors.toList());
+            return;
+        }
+        throw new TwitterException("You didn't retweet this tweet already.", HttpStatus.BAD_REQUEST);
+    }
 
+    public void addRetweetsTweetsIdList(int id) {
+        if (retweetsTweetsIdList == null) {
+            retweetsTweetsIdList = new ArrayList<>();
+        }
+        if(retweetsTweetsIdList.contains(id)){
+            throw new TwitterException("You already retweet this tweet already ...",HttpStatus.BAD_REQUEST);
+        }
+        retweetsTweetsIdList.add(id);
+    }
 
 
     public void addTweet(Tweet tweet) {
@@ -83,13 +105,13 @@ public class User implements UserDetails {
 
     public void removeLikedTweet(int id){
         if(likedTweetIdList == null){
-            throw new TwitterException("You didn't like this tweet already5555.", HttpStatus.BAD_REQUEST);
+            throw new TwitterException("You didn't like this tweet already.", HttpStatus.BAD_REQUEST);
         }
         if(likedTweetIdList.contains(id)){
             likedTweetIdList = likedTweetIdList.stream().filter(eachId->eachId !=id).collect(Collectors.toList());
             return;
         }
-        throw new TwitterException("You didn't like this tweet already3333.", HttpStatus.BAD_REQUEST);
+        throw new TwitterException("You didn't like this tweet already.", HttpStatus.BAD_REQUEST);
     }
 
     public void addLikedTweet(int id) {
