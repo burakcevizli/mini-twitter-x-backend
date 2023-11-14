@@ -45,6 +45,7 @@ public class TweetController {
     @PostMapping("/")
     public TweetResponse saveTweet(@RequestBody Tweet tweet){
         User user = userService.findByUserId(tweet.getUser().getId());
+        tweet.setCommentedTo(0);
         tweet.setUser(user);
         return Converter.tweetResponseConverter(tweetService.saveTweet(tweet));
     }
@@ -65,12 +66,14 @@ public class TweetController {
         if(!(tweet.getCommentsTweetIdList().isEmpty())){
 
             for(int i : tweet.getCommentsTweetIdList()){
-
-                tweetService.findTweetById(i).setCommentedTo(0);
+                Tweet tweet3 = tweetService.findTweetById(i);
+                tweet3.setCommentedTo(0);
+                tweetService.saveTweet(tweet3);
 
             }
             tweet.setCommentsTweetIdList(new ArrayList<>());
-
+            tweet.setCommentedTo(0);
+            tweetService.saveTweet(tweet);
         }
         if(tweet.getCommentedTo() != 0){
            Tweet tweet1 = tweetService.findTweetById(tweet.getCommentedTo());
