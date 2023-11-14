@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 @CrossOrigin("*")
 @RestController
@@ -60,10 +61,22 @@ public class TweetController {
     @DeleteMapping("/{id}")
     public TweetResponse deleteTweet(@PathVariable int id){
         Tweet tweet = tweetService.findTweetById(id);
+
+        if(!(tweet.getCommentsTweetIdList().isEmpty())){
+
+            for(int i : tweet.getCommentsTweetIdList()){
+
+                tweetService.findTweetById(i).setCommentedTo(0);
+
+            }
+            tweet.setCommentsTweetIdList(new ArrayList<>());
+
+        }
         if(tweet.getCommentedTo() != 0){
            Tweet tweet1 = tweetService.findTweetById(tweet.getCommentedTo());
            tweet1.removeCommentsTweetIdList(id);
         }
+
         return Converter.tweetResponseConverter(tweetService.deleteTweet(id));
     }
 
@@ -117,5 +130,14 @@ public class TweetController {
         commentedTweet.addCommentsTweetIdList(tweet1.getId());
         return Converter.tweetResponseConverter(tweetService.saveTweet(tweet1));
     }
+
+    @DeleteMapping("/reply/{id}")
+    public TweetResponse deleteComment(@PathVariable int id){
+        Tweet tweet = tweetService.findTweetById(id);
+        Tweet tweet1 = tweetService.findTweetById(tweet.getCommentedTo());
+        tweet1.removeCommentsTweetIdList(id);
+        return Converter.tweetResponseConverter(tweetService.deleteTweet(id));
+    }
+
 
 }
