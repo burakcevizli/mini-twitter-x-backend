@@ -59,6 +59,11 @@ public class TweetController {
 
     @DeleteMapping("/{id}")
     public TweetResponse deleteTweet(@PathVariable int id){
+        Tweet tweet = tweetService.findTweetById(id);
+        if(tweet.getCommentedTo() != 0){
+           Tweet tweet1 = tweetService.findTweetById(tweet.getCommentedTo());
+           tweet1.removeCommentsTweetIdList(id);
+        }
         return Converter.tweetResponseConverter(tweetService.deleteTweet(id));
     }
 
@@ -107,10 +112,10 @@ public class TweetController {
         Tweet commentedTweet = tweetService.findTweetById(id);
         User user = userService.findByUserId(tweet.getUser().getId());
         tweet.setUser(user);
+        tweet.setCommentedTo(id);
         Tweet tweet1 = tweetService.saveTweet(tweet);
         commentedTweet.addCommentsTweetIdList(tweet1.getId());
         return Converter.tweetResponseConverter(tweetService.saveTweet(tweet1));
     }
-
 
 }

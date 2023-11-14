@@ -40,6 +40,10 @@ public class Tweet {
     @Column(name = "comments")
     private List<Integer> commentsTweetIdList;
 
+    @Column(name = "commented_to")
+    private Integer commentedTo;
+
+
     @JoinColumn(name = "user_id")
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     private User user;
@@ -50,7 +54,7 @@ public class Tweet {
         }
         commentsTweetIdList.add(id);
     }
-    public void removeCommentsUserIdList(int id){
+    public void removeCommentsTweetIdList(int id){
         if(commentsTweetIdList == null){
             throw new TwitterException("You didn't comment this tweet already.", HttpStatus.BAD_REQUEST);
         }

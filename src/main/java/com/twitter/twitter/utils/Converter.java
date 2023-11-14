@@ -45,7 +45,7 @@ public class Converter {
 
     public static TweetResponse tweetResponseConverter(Tweet tweet){
         return new TweetResponse(tweet.getId(), tweet.getText(),tweet.getCommentsTweetIdList(),
-                formatDate(tweet.getTweetDate()),tweet.getLikedUserIdList(),tweet.getRetweetsUserIdList() ,userTweetResponseConverter(userResponseConverter(tweet.getUser())));
+                formatDate(tweet.getTweetDate()),tweet.getLikedUserIdList(),tweet.getRetweetsUserIdList() ,userTweetResponseConverter(userResponseConverter(tweet.getUser())), tweet.getCommentedTo());
     }
 
     public static List<TweetResponse> tweetResponseListConverter(List<Tweet> tweetList){
