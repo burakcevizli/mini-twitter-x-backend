@@ -2,16 +2,17 @@ package com.twitter.twitter.entity;
 
 import com.twitter.twitter.exceptions.TwitterException;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
@@ -26,41 +27,55 @@ public class User implements UserDetails {
     @Column(name = "id")
     private int id;
 
+    @NotNull
+    @Size(min = 3,message = "Fırst name can not be less than 3 chars")
     @Column(name = "first_name")
     private String firstName;
+
 
     @Column(name = "last_name")
     private String lastName;
 
+
     @Column(name = "email")
     private String email;
+
 
     @Column(name = "password")
     private String password;
 
+
     @Column(name = "phone")
     private String phone;
+
 
     @Column(name = "username")
     private String userName;
 
+
     @Column(name = "birthday")
     private LocalDate birthday;
+
 
     @Column(name = "register_date")
     private LocalDate registerDate;
 
+
     @Column(name = "address")
     private String address;
+
 
     @Column(name = "profile_picture")
     private String profilePicture;
 
+
     @Column(name = "profile_wallpaper")
     private String profileWallpaper;
 
+
     @Column(name = "liked_tweets_id")
     private List<Integer> likedTweetIdList;
+
 
     @Column(name = "retweets_tweets_id")
     private List<Integer> retweetsTweetsIdList;

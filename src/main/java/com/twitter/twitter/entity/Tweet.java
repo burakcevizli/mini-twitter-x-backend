@@ -2,6 +2,7 @@ package com.twitter.twitter.entity;
 
 import com.twitter.twitter.exceptions.TwitterException;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,12 +25,14 @@ public class Tweet {
     private int id;
 
 
-
+    @NotNull
     @Column(name = "text")
     private String text;
 
+
     @Column(name = "tweet_date")
     private LocalDate tweetDate;
+
 
     @Column(name = "liked_user_id")
     private List<Integer> likedUserIdList;

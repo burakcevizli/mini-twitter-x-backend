@@ -7,7 +7,9 @@ import com.twitter.twitter.repository.UserRepository;
 import com.twitter.twitter.service.AuthenticationService;
 import com.twitter.twitter.service.UserService;
 import com.twitter.twitter.utils.Converter;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/profile")
+@Validated
 public class UserController {
 
     private UserService userService;
@@ -27,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public UserResponse register(@RequestBody User user) {
+    public UserResponse register(@Validated @RequestBody User user) {
         return Converter.userResponseConverter(userService.saveUser(authenticationService.register(user)));
     }
 
@@ -39,7 +42,7 @@ public class UserController {
        return Converter.userResponseConverter(user1);
     }
     @DeleteMapping("/{id}")
-    public UserResponse deleteUser(@PathVariable int id){
+    public UserResponse deleteUser(@Positive @PathVariable int id){
         return Converter.userResponseConverter(userService.deleteUser(id));
     }
 
