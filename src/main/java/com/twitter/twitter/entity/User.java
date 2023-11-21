@@ -83,11 +83,7 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     List<Tweet> tweetList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "followerUser")
-    List<Follow> followerList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "followingUser")
-    List<Follow> followingList;
 
     public void removeRetweetsTweetsIdList(int id){
         if(retweetsTweetsIdList == null){
@@ -137,20 +133,6 @@ public class User implements UserDetails {
             throw new TwitterException("You already liked this tweet already ...",HttpStatus.BAD_REQUEST);
         }
         likedTweetIdList.add(id);
-    }
-
-    public void addFollower(Follow follow) {
-        if (followerList == null) {
-            followerList = new ArrayList<>();
-        }
-        followerList.add(follow);
-    }
-
-    public void addFollowing(Follow follow) {
-        if (followingList == null) {
-            followingList = new ArrayList<>();
-        }
-        followingList.add(follow);
     }
 
 
